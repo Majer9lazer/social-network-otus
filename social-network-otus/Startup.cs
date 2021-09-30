@@ -28,16 +28,13 @@ namespace social_network_otus
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContextPool<ApplicationDbContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("MySqlConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
                 .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                //.AddSignInManager()
-                //.AddUserManager<AspNetUserManager<ApplicationUser>>();
-                ;
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
         }
 
