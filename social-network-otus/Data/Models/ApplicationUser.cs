@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace social_network_otus.Data.Models
@@ -11,7 +8,7 @@ namespace social_network_otus.Data.Models
     {
         public DateTime BirthDate { get; set; }
 
-        [StringLength(10)]
+        [StringLength(100)]
         public string Gender { get; set; }
 
         [StringLength(255)]

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using social_network_otus.Data.Models;
 
 namespace social_network_otus.Areas.Identity.Pages.Account.Manage
 {

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using social_network_otus.Data.Models;
+using social_network_otus.Models;
 
 namespace social_network_otus.Areas.Identity.Pages.Account
 {
@@ -72,7 +73,6 @@ namespace social_network_otus.Areas.Identity.Pages.Account
             public string RangeOfInterests { get; set; }
 
             [Required]
-            [MaxLength(255)]
             [Display(Name = "Дата рождения")]
             public DateTime BirthDate { get; set; }
 
@@ -96,10 +96,20 @@ namespace social_network_otus.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Action("Index", "Profile");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    BirthDate = Input.BirthDate,
+                    UserLastName = Input.LastName,
+                    CityName = Input.City,
+                    RangeOfInterests = Input.RangeOfInterests,
+                    Gender = Input.Gender
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -109,7 +119,7 @@ namespace social_network_otus.Areas.Identity.Pages.Account
                     await SendEmail(user, returnUrl);
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
                     }
                     else
                     {

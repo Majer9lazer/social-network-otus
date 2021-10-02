@@ -1,18 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using social_network_otus.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using social_network_otus.Data.Models;
+using social_network_otus.Repositories.Dapper.MySql;
+using social_network_otus.Services;
 
 namespace social_network_otus
 {
@@ -29,12 +24,17 @@ namespace social_network_otus
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<ApplicationDbContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("MySqlConnection")));
+            {
+                options.UseMySQL(Configuration.GetConnectionString("MySqlConnection"));
+            });
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
                 .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddSingleton<IConnectionStringFactory, MySqlConnectionStringFactory>();
+            services.AddSingleton<IUserRepository, MySqlUserRepository>();
             services.AddControllersWithViews();
         }
 

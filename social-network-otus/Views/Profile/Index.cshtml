@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<social_network_otus.Data.Models.ApplicationUser>
+@{
+    var index = 0;
+}
+<div class="container-fluid">
+    <div class="row">
+        <h3 class="col-4"><span class="badge badge-dark">Имя</span></h3>
+        <h3 class="col-4"><span class="badge badge-dark">Фамилия</span></h3>
+        <h3 class="col-4 pl-0"> <span class="badge badge-dark">Действие</span></h3>
+
+        @foreach (var item in Model)
+        {
+            <p class="col-md-4">@item.UserName</p>
+            <p class="col-md-4">@item.UserLastName</p>
+            <button class="btn btn-info col-md-2 mt-2"
+                    data-toggle="collapse" data-target="#@item.Id">
+                Подробнее
+            </button>
+            <br />
+            <div class="collapse container-fluid mt-2" id="@item.Id">
+                <div class="row">
+                 
+                    <h5 class="col-md-4"><span class="badge badge-secondary">@nameof(item.Email)</span></h5>
+                    <h5 class="col-md-4"><span class="badge badge-secondary">@nameof(item.RangeOfInterests)</span></h5>
+                    <h5 class="col-md-4 pl-0"> <span class="badge badge-secondary">@nameof(item.BirthDate)</span></h5>
+                    <p class="col-md-4">@item.Email</p>
+                    <p class="col-md-4">@item.RangeOfInterests</p>
+                    <p class="col-md-4">@item.BirthDate</p>
+                </div>
+
+            </div>
+            <br />
+        }
+    </div>
+</div>
