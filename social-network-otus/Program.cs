@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
 using Serilog.Exceptions;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace social_network_otus
 {
@@ -23,7 +24,7 @@ namespace social_network_otus
                 .UseSerilog((context, configuration) =>
                 {
                     configuration.MinimumLevel.Verbose()
-                        .WriteTo.Console()
+                        .WriteTo.Console(theme:ConsoleTheme.None)
                         .Enrich.FromLogContext()
                         .Enrich.WithEnvironmentName()
                         .Enrich.WithMachineName()
