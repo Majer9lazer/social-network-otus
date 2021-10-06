@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-social_network_otus-F66D7AF6-B62F-4EAB-B705-E8BB4DCF2B83</UserSecretsId>
     <RootNamespace>social_network_otus</RootNamespace>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
