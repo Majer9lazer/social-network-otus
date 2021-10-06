@@ -28,6 +28,7 @@ namespace social_network_otus
             services.AddDbContextPool<ApplicationDbContext>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("MySqlConnection"));
+                
                 var provider = services.BuildServiceProvider();
                 var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
                 
