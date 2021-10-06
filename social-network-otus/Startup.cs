@@ -66,7 +66,7 @@ namespace social_network_otus
 
             app.InitDbContext<ApplicationDbContext>();
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
