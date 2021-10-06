@@ -13,11 +13,17 @@ namespace social_network_otus.Repositories.Dapper.MySql
     public interface IUserRepository
     {
         Task<List<ApplicationUser>> GetAll(CancellationToken ct = default);
+        Task<int> Add(ApplicationUser user, CancellationToken ct = default);
     }
 
     public class MySqlUserRepository : IUserRepository
     {
         private const string GetAllQueryTemplate = "select * from aspnetusers";
+
+        private const string InsertUserTemplate =
+            "insert into `aspnetusers` (BirthDate, Gender, RangeOfInterests, CityName, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumber, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnd, LockoutEnabled, AccessFailedCount, UserLastName) " +
+            "values(@BirthDate, @Gender, @RangeOfInterests, @CityName, @UserName, @NormalizedUserName, @Email, @NormalizedEmail, @EmailConfirmed, @PasswordHash, @SecurityStamp, @ConcurrencyStamp, @PhoneNumber, @PhoneNumberConfirmed, @TwoFactorEnabled, @LockoutEnd, @LockoutEnabled, @AccessFailedCount, @UserLastName);";
+        
         private readonly IConnectionStringFactory _connectionStringFactory;
 
         public MySqlUserRepository(IConnectionStringFactory connectionStringFactory)
@@ -32,6 +38,13 @@ namespace social_network_otus.Repositories.Dapper.MySql
             await dbConnection.OpenAsync(ct);
 
             return (await dbConnection.QueryAsync<ApplicationUser>(GetAllQueryTemplate)).ToList();
+        }
+
+        public async Task<int> Add(ApplicationUser user, CancellationToken ct = default)
+        {
+            await using var dbConnection = new MySqlConnection(_connectionStringFactory.ConnectionString);
+            await dbConnection.OpenAsync(ct);
+            return await dbConnection.ExecuteAsync(InsertUserTemplate, user);
         }
     }
 }

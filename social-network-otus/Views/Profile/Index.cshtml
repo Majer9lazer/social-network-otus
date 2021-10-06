@@ -7,22 +7,23 @@
 }
 <div class="container-fluid">
     <div class="row">
-        <h3 class="col-4"><span class="badge badge-dark">Имя</span></h3>
-        <h3 class="col-4"><span class="badge badge-dark">Фамилия</span></h3>
-        <h3 class="col-4 pl-0"> <span class="badge badge-dark">Действие</span></h3>
+        <h3 class="col-4"><span class="badge badge-dark">Name</span></h3>
+        <h3 class="col-4"><span class="badge badge-dark">Last Name</span></h3>
+        <h3 class="col-4 pl-0"> <span class="badge badge-dark">Action</span></h3>
 
         @foreach (var item in Model)
         {
+
             <p class="col-md-4">@item.UserName</p>
             <p class="col-md-4">@item.UserLastName</p>
-            <button class="btn btn-info col-md-2 mt-2"
-                    data-toggle="collapse" data-target="#@item.Id">
-                Подробнее
+            <button class="btn btn-info col-md-2 mt-2" type="button"
+                    data-toggle="collapse" data-target="#Item@(++index)">
+                Details
             </button>
             <br />
-            <div class="collapse container-fluid mt-2" id="@item.Id">
+            <div class="collapse container-fluid mt-2" id="@("Item"+index)">
                 <div class="row">
-                 
+
                     <h5 class="col-md-4"><span class="badge badge-secondary">@nameof(item.Email)</span></h5>
                     <h5 class="col-md-4"><span class="badge badge-secondary">@nameof(item.RangeOfInterests)</span></h5>
                     <h5 class="col-md-4 pl-0"> <span class="badge badge-secondary">@nameof(item.BirthDate)</span></h5>

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using social_network_otus.Data;
 using social_network_otus.Data.Models;
+using social_network_otus.Extensions;
 using social_network_otus.Repositories.Dapper.MySql;
 using social_network_otus.Services;
 
@@ -30,7 +31,10 @@ namespace social_network_otus
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddSingleton<IConnectionStringFactory, MySqlConnectionStringFactory>();
@@ -52,6 +56,9 @@ namespace social_network_otus
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.InitDbContext<ApplicationDbContext>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
