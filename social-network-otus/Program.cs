@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Serilog;
+using Serilog.Exceptions;
 
 namespace social_network_otus
 {
@@ -18,6 +20,15 @@ namespace social_network_otus
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog((context, configuration) =>
+                {
+                    configuration.MinimumLevel.Verbose()
+                        .WriteTo.Console()
+                        .Enrich.FromLogContext()
+                        .Enrich.WithEnvironmentName()
+                        .Enrich.WithMachineName()
+                        .Enrich.WithExceptionDetails();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

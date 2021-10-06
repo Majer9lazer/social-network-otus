@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using social_network_otus.Data;
 using social_network_otus.Data.Models;
 using social_network_otus.Extensions;
@@ -27,6 +28,13 @@ namespace social_network_otus
             services.AddDbContextPool<ApplicationDbContext>(options =>
             {
                 options.UseMySQL(Configuration.GetConnectionString("MySqlConnection"));
+                var provider = services.BuildServiceProvider();
+                var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+                
+                options
+                    .UseLoggerFactory(loggerFactory)
+                    .EnableDetailedErrors()
+                    .EnableSensitiveDataLogging();
             });
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -57,7 +65,7 @@ namespace social_network_otus
                 app.UseHsts();
             }
 
-            //app.InitDbContext<ApplicationDbContext>();
+            app.InitDbContext<ApplicationDbContext>();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
