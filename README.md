@@ -1,2 +1,1 @@
-# social-network-otus
-## [App Link](https://social-net-otus.herokuapp.com/)
+# [social-network-otus] (https://social-net-otus.herokuapp.com/)
