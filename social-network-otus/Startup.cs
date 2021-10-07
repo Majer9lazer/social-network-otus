@@ -38,7 +38,7 @@ namespace social_network_otus
                     .EnableSensitiveDataLogging();
             });
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            
             services
                 .AddDefaultIdentity<ApplicationUser>(options =>
                 {
