@@ -30,7 +30,6 @@ namespace social_network_otus.Areas.Identity.Pages.Account
         private readonly IEnumerable<IPasswordValidator<ApplicationUser>> _passwordValidators;
         private readonly IEnumerable<IUserValidator<ApplicationUser>> _userValidators;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
-        private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserRepository _userRepository;
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -48,9 +47,8 @@ namespace social_network_otus.Areas.Identity.Pages.Account
             _passwordValidators = passwordValidators;
             _passwordHasher = passwordHasher;
             _userValidators = userValidators;
-            _userStore = userStore;
             _userRepository = userRepository;
-            _passwordStore = _userStore as IUserPasswordStore<ApplicationUser> ??
+            _passwordStore = userStore as IUserPasswordStore<ApplicationUser> ??
                              throw new ArgumentNullException(nameof(userStore),
                                  $"{nameof(userStore)} doesn't support {nameof(IUserPasswordStore<ApplicationUser>)}");
         }

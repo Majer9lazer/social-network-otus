@@ -23,8 +23,8 @@ namespace social_network_otus
             Host.CreateDefaultBuilder(args)
                 .UseSerilog((context, configuration) =>
                 {
-                    configuration.MinimumLevel.Verbose()
-                        .WriteTo.Console(theme:ConsoleTheme.None)
+                    configuration.MinimumLevel.Information()
+                        .WriteTo.Console()
                         .Enrich.FromLogContext()
                         .Enrich.WithEnvironmentName()
                         .Enrich.WithMachineName()

@@ -1,0 +1,111 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <form class="col-12">
+            <div class="form-row align-items-center">
+                <div class="col-md-6 col-lg-4">
+                    <input type="number"
+                           required="required"
+                           class="form-control" id="randomUsersCount"
+                           aria-describedby="randoUsersCount"
+                           placeholder="Enter count of users to be generated"
+                           value="10001" />
+                </div>
+                <div class="col-auto">
+                    <button type="button"
+                            id="sendButton"
+                            class="btn btn-primary">
+                        Generate
+                    </button>
+                </div>
+                <div class="col-md-4 col-lg-6">
+                    <div class="progress" style="height: 20px; display: none" id="progressBarContainer">
+                        <div id="progressBar"
+                             class="progress-bar progress-bar-striped progress-bar-animated"
+                             role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                             style="width: 75%"></div>
+                    </div>
+                </div>
+               
+            </div>
+            
+
+        </form>
+        <div id="workDoneContainer" class="col-2" style="display: none">
+            <p class="text-primary">Done!</p>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script>
+
+        var randomUsersCountInput = document.getElementById("randomUsersCount");
+        var workDoneContainer = document.getElementById("workDoneContainer");
+        var randomUsersCount = 0;
+        var sendButton = document.getElementById("sendButton");
+        var progressBar = document.getElementById("progressBar");
+        var progressBarContainer = document.getElementById("progressBarContainer");
+        sendButton.disabled = true;
+        var progress = 0;
+        var profileConn = new signalR.HubConnectionBuilder()
+            .withUrl("/profileHub")
+            .withAutomaticReconnect()
+            .build();
+
+        profileConn.serverTimeoutInMilliseconds = 1800000;
+
+        profileConn.start()
+            .then(function() {
+                sendButton.disabled = false;
+                console.log('connection was established!');
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        profileConn.on("ReceiveCreationProgress",
+            function(percentValue) {
+                if (progressBarContainer.style.display !== "flex") {
+                    progressBarContainer.style.display = "flex";
+                }
+                if (sendButton.disabled === false) {
+                    sendButton.disabled = true;
+                }
+                progressBar.style.width = ((progress++) / (randomUsersCount / 100)) + '%';
+                progressBar.innerText = ((progress) / (randomUsersCount / 100)) + '%';
+                console.log('received message!');
+            });
+
+        sendButton.addEventListener('click',
+            function(event) {
+                event.preventDefault();
+                progress = 0;
+                randomUsersCount = randomUsersCountInput.value;
+                workDoneContainer.style.display = 'none';
+                sendButton.disabled = true;
+                progressBar.style.width = `${1}%`;
+                progressBar.innerText = `${1}%`;
+                if (progressBarContainer.style.display !== "flex") {
+                    progressBarContainer.style.display = "flex";
+                }
+
+                window.axios.post(`/api/RandomUsers?count=${randomUsersCount}`, {})
+                    .then(function(response) {
+                        console.log('sent');
+                        workDoneContainer.style.display = 'flex';
+                        sendButton.disabled = false;
+                        progressBar.style.width = `${100}%`;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });;
+
+            });
+    </script>
+}

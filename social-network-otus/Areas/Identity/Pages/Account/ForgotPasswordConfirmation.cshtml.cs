@@ -9,8 +9,9 @@ namespace social_network_otus.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ForgotPasswordConfirmation : PageModel
     {
-        public void OnGet()
+        public void OnGet(string callbackUrl = null)
         {
+            ViewData["CallbackUrl"] = callbackUrl;
         }
     }
 }
