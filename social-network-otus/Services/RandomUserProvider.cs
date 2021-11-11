@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using social_network_otus.Data;
+using social_network_otus.Data.Models;
+
+#if LOCAL
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using RandomNameGeneratorLibrary;
-using social_network_otus.Data;
-using social_network_otus.Data.Models;
 using social_network_otus.Hubs;
 using social_network_otus.Repositories.Dapper.MySql;
+using System;
+using System.Collections.Concurrent;
+#endif
 
 namespace social_network_otus.Services
 {
@@ -19,6 +21,8 @@ namespace social_network_otus.Services
         ValueTask<ApplicationUser[]> GenerateRandomUsers(int userCount, string callerId, CancellationToken ct = default);
         ValueTask<List<ApplicationUser>> GenerateAndSaveRandomUsers(int userCount, string callerId, ApplicationDbContext dbContext, CancellationToken ct = default);
     }
+
+#if LOCAL
     public class RandomUserProvider : IRandomUserProvider
     {
         private readonly PersonNameGenerator _personGenerator;
@@ -90,17 +94,17 @@ namespace social_network_otus.Services
 
                 var concurrentBag = new ConcurrentBag<ApplicationUser>();
                 Parallel.For(0, j < 10_000 ? j : 10_000, async (i, a) =>
-                      {
-                          if (ct.IsCancellationRequested)
-                          {
-                              a.Stop();
-                          }
+                {
+                    if (ct.IsCancellationRequested)
+                    {
+                        a.Stop();
+                    }
 
-                          var user = CreateRandomUser();
-                          concurrentBag.Add(user);
-                          await _profileHub.Clients.User(callerId).ReceiveCreationProgress(i);
+                    var user = CreateRandomUser();
+                    concurrentBag.Add(user);
+                    await _profileHub.Clients.User(callerId).ReceiveCreationProgress(i);
 
-                      });
+                });
 
                 users.AddRange(concurrentBag);
 
@@ -109,7 +113,7 @@ namespace social_network_otus.Services
                 {
                     operation.BatchSize = 10_000;
 
-                },ct);
+                }, ct);
 
             }
 
@@ -137,4 +141,5 @@ namespace social_network_otus.Services
             return user;
         }
     }
+#endif
 }
