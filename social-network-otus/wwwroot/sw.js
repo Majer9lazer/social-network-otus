@@ -18,14 +18,20 @@ self.addEventListener('fetch', function (event) {
             return response;
         } else {
             return fetch(event.request).then(function (response) {
+
                 // response may be used only once
                 // we need to save clone to put one copy in cache
                 // and serve second one
-                let responseClone = response.clone();
+                const responseClone = response.clone();
+
+                if (!/^https?:$/i.test(new URL(event.request.url).protocol)) {
+                    return response;
+                }
 
                 caches.open('v1').then(function (cache) {
                     cache.put(event.request, responseClone);
                 });
+
                 return response;
             }).catch(function () {
                 return caches.match("~/icons/mstile-150x150.png");
