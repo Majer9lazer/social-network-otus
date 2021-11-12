@@ -60,6 +60,10 @@ namespace social_network_otus.Data
 
             });
 
+            builder.Entity<ApplicationUser>()
+                .HasIndex(d => new { d.UserName, d.UserLastName })
+                .IsUnique();
+
             builder
                 .Entity<ApplicationUser>()
                 .HasMany<Chat>()
