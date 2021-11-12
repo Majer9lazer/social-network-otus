@@ -14,7 +14,13 @@ namespace social_network_otus.Extensions
             return services
                 .AddSingleton<IConnectionStringFactory, MySqlConnectionStringFactory>()
                 .AddSingleton<IUserRepository, MySqlUserRepository>()
+                .AddCustomServiceScopeFactory()
                 .AddRandomUserProvider();
+        }
+
+        private static IServiceCollection AddCustomServiceScopeFactory(this IServiceCollection services)
+        {
+            return services.AddSingleton(typeof(IServiceScopeFactory<>), typeof(ServiceScopeFactory<>));
         }
 
         private static IServiceCollection AddRandomUserProvider(this IServiceCollection services)

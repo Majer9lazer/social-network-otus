@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
@@ -23,5 +24,12 @@ namespace social_network_otus.Data.Models
         [StringLength(250)]
         [Column(TypeName = "nvarchar(250)")]
         public string UserLastName { get; set; }
+
+        [StringLength(250)]
+        [Column(TypeName = "nvarchar(250)")]
+        public string ImageUrl { get; set; }
+
+        public virtual ICollection<ApplicationUserFriend> Friends { get; set; }
+        public virtual ICollection<Chat> Chats { get; set; }
     }
 }

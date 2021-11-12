@@ -10,8 +10,12 @@ namespace social_network_otus.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
+
         }
+
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ApplicationUserFriend> UserFriends { get; set; }
+        public ChatMessage ChatMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -45,7 +49,7 @@ namespace social_network_otus.Data
                 typeBuilder
                     .Property(p => p.Id)
                     .HasMaxLength(255);
-                
+
                 typeBuilder
                     .Property(p => p.Name)
                     .HasMaxLength(250);
@@ -55,6 +59,22 @@ namespace social_network_otus.Data
                     .HasMaxLength(250);
 
             });
+
+            builder
+                .Entity<ApplicationUser>()
+                .HasMany<Chat>()
+                .WithOne(chat => chat.User);
+
+            builder.Entity<ApplicationUserFriend>()
+                .HasOne(pt => pt.Friend)
+                .WithMany(t => t.Friends)
+                .HasForeignKey(pt => pt.FriendId)
+                .HasPrincipalKey(p => p.Id);
+
+            builder
+                .Entity<ApplicationUser>()
+                .HasMany<Chat>()
+                .WithOne(chat => chat.AnotherUser);
 
         }
     }

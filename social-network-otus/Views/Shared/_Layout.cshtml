@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - social_network_otus</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap_5/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    
+
     <link rel="apple-touch-icon" sizes="180x180" href="~/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="~/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="~/icons/favicon-16x16.png">
@@ -33,8 +33,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="RandomUser">Random Users</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
                         </li>
+                        <environment exclude="Development">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="RandomUser">Random Users</a>
+                            </li>
+                        </environment>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">Profiles</a>
                         </li>
@@ -56,10 +62,12 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap_5/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/axios/axios.min.js"></script>
     <script src="~/lib/vue/dist/vue.global.prod.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/firebase_config.js" asp-append-version="true" type="module"></script>
+    <script src="~/firebase-messaging-sw.js" asp-append-version="false" type="module"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

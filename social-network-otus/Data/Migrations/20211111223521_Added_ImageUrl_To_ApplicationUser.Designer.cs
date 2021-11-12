@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using social_network_otus.Data;
 
 namespace social_network_otus.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211111223521_Added_ImageUrl_To_ApplicationUser")]
+    partial class Added_ImageUrl_To_ApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,6 +161,9 @@ namespace social_network_otus.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime");
 
@@ -228,6 +233,8 @@ namespace social_network_otus.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -238,30 +245,11 @@ namespace social_network_otus.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("social_network_otus.Data.Models.ApplicationUserFriend", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("FriendId")
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FriendId");
-
-                    b.ToTable("UserFriends");
-                });
-
             modelBuilder.Entity("social_network_otus.Data.Models.Chat", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<byte[]>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varbinary(16)");
 
                     b.Property<string>("AnotherUserId")
                         .HasColumnType("varchar(255)");
@@ -269,8 +257,8 @@ namespace social_network_otus.Data.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("MessageId")
-                        .HasColumnType("int");
+                    b.Property<byte[]>("MessageId")
+                        .HasColumnType("varbinary(16)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(255)");
@@ -290,9 +278,9 @@ namespace social_network_otus.Data.Migrations
 
             modelBuilder.Entity("social_network_otus.Data.Models.ChatMessage", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<byte[]>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varbinary(16)");
 
                     b.Property<DateTime>("ReceiveDate")
                         .HasColumnType("datetime");
@@ -359,13 +347,11 @@ namespace social_network_otus.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("social_network_otus.Data.Models.ApplicationUserFriend", b =>
+            modelBuilder.Entity("social_network_otus.Data.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("social_network_otus.Data.Models.ApplicationUser", "Friend")
+                    b.HasOne("social_network_otus.Data.Models.ApplicationUser", null)
                         .WithMany("Friends")
-                        .HasForeignKey("FriendId");
-
-                    b.Navigation("Friend");
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("social_network_otus.Data.Models.Chat", b =>

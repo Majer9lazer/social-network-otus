@@ -32,35 +32,34 @@
     <div class="row">
         <div class="col-12">
             <div class="row">
-                <h3 class="col-4"><span class="badge badge-dark">Name</span></h3>
-                <h3 class="col-4"><span class="badge badge-dark">Last Name</span></h3>
-                <h3 class="col-4 pl-0"> <span class="badge badge-dark">Action</span></h3>
+                <h3 class="col-md-4 col-sm-6 col-6"><span class="badge bg-dark">Name</span></h3>
+                <h3 class="col-md-4 col-sm-6 col-6"><span class="badge bg-dark">Last Name</span></h3>
+                <h3 class="col-md-4 d-md-flex d-none pl-md-0"> <span class="badge bg-dark">Action</span></h3>
             </div>
         </div>
         <div class="col-12">
             <div class="row" v-for="(item, index) in filteredUsers">
-
-                <p class="col-md-4">{{item.userName}}</p>
-                <p class="col-md-4">{{item.userLastName}}</p>
+                <p class="col-md-4 col-sm-6 col-6">{{item.userName}}</p>
+                <p class="col-md-4 col-sm-6 col-6">{{item.userLastName}}</p>
                 <button class="btn btn-info col-md-2 mt-2" type="button"
-                        data-toggle="collapse" :data-target="'#Item'+index">
+                        data-bs-toggle="collapse" :data-bs-target="'#Item'+index">
                     Details
                 </button>
                 <br />
                 <div class="collapse container-fluid mt-2" :id="'Item'+ index">
                     <div class="row">
 
-                        <h5 class="col-md-4"><span class="badge badge-secondary">Email</span></h5>
-                        <h5 class="col-md-4"><span class="badge badge-secondary">RangeOfInterests</span></h5>
-                        <h5 class="col-md-4 pl-0"> <span class="badge badge-secondary">BirthDate</span></h5>
-                        <p class="col-md-4">{{item.email}}</p>
-                        <p class="col-md-4">{{item.rangeOfInterests}}</p>
-                        <p class="col-md-4">{{item.birthDate}}</p>
+                        <h5 class="col-4"><span class="badge bg-secondary">Email</span></h5>
+                        <h5 class="col-4"><span class="badge bg-secondary">RangeOfInterests</span></h5>
+                        <h5 class="col-4"> <span class="badge bg-secondary">Birthday</span></h5>
+                        <p class="col-4">{{item.email}}</p>
+                        <p class="col-4">{{item.rangeOfInterests}}</p>
+                        <p class="col-4">{{item.birthDate}}</p>
                     </div>
-
                 </div>
-                <br />
+               
             </div>
+            
         </div>
     </div>
 </div>

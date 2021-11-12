@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using RandomNameGeneratorLibrary;
 using social_network_otus.Hubs;
-using social_network_otus.Repositories.Dapper.MySql;
 using System;
 using System.Collections.Concurrent;
 #endif
@@ -29,17 +28,16 @@ namespace social_network_otus.Services
         private readonly PlaceNameGenerator _placeGenerator;
         private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
         private readonly IHubContext<ProfileHub, IProfileHubClient> _profileHub;
-        private readonly IUserRepository _userRepository;
+
         public RandomUserProvider(PersonNameGenerator personGenerator,
             PlaceNameGenerator placeGenerator,
-            IPasswordHasher<ApplicationUser> passwordHasher,
-            IHubContext<ProfileHub, IProfileHubClient> profileHub, IUserRepository userRepository)
+            IHubContext<ProfileHub, IProfileHubClient> profileHub,
+            IServiceScopeFactory<IPasswordHasher<ApplicationUser>> scopeFactory)
         {
             _personGenerator = personGenerator;
             _placeGenerator = placeGenerator;
-            _passwordHasher = passwordHasher;
+            _passwordHasher = scopeFactory.ScopedInstance;
             _profileHub = profileHub;
-            _userRepository = userRepository;
         }
 
         public async ValueTask<ApplicationUser[]> GenerateRandomUsers(int userCount, string callerId, CancellationToken ct = default)
