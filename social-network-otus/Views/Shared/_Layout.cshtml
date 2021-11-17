@@ -35,6 +35,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
                         </li>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="~/template/uitheme.net/sociala/default.html">Template</a>
+                        </li>
                         <environment exclude="Development">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="RandomUser">Random Users</a>
@@ -67,7 +71,6 @@
     <script src="~/lib/vue/dist/vue.global.prod.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/firebase_config.js" asp-append-version="true" type="module"></script>
-    <script src="~/firebase-messaging-sw.js" asp-append-version="false" type="module"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

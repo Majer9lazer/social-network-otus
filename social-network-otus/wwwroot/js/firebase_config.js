@@ -18,8 +18,8 @@ const firebaseApp = initializeApp({
 
 const messaging = getMessaging(firebaseApp);
 
-
-getToken(messaging, { vapidKey: 'BLDAmpGgtGzvEj-Iu5cMBcjAGuvox8RF1gzLzjqZwmBAHOL90UIhvZ7U1XQlGwNWjeJewEf5B8SUbkTwGXbBIew' }).then((currentToken) => {
+const vapidKey = 'BGDwQYc4JNDasQ90YbkuSxg8TzYMz9Vg9_WufR7WmqeM6G9oVsCxlpMO6AkGQ9s0j6UaocGQoHjdrynjOyMHxk8';
+getToken(messaging, { vapidKey: vapidKey }).then((currentToken) => {
     if (currentToken) {
         console.log(`current token = ${currentToken}`);
         // Send the token to your server and update the UI if necessary
@@ -38,8 +38,6 @@ onMessage(messaging, (payload) => {
     console.log('Message received. ', payload);
     // ...
 });
-
-console.log(messaging);
 
 isSupported().then(resp => {
     console.log('Is Window supported = ', resp);
