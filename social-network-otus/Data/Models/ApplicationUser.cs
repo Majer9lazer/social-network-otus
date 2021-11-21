@@ -29,6 +29,8 @@ namespace social_network_otus.Data.Models
         [Column(TypeName = "nvarchar(250)")]
         public string ImageUrl { get; set; }
 
+        public string FirebaseMessageToken { get; set; }
+
         public virtual ICollection<ApplicationUserFriend> Friends { get; set; }
         public virtual ICollection<Chat> Chats { get; set; }
     }

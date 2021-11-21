@@ -11,6 +11,10 @@ namespace social_network_otus.Data.Models
 
         public string Text { get; set; }
 
+        // DELIVERED, READ, SENT, ERROR
+        [StringLength(9)]
+        public string Status { get; set; }
+
         public DateTime SendDate { get; set; }
 
         public DateTime ReceiveDate { get; set; }
