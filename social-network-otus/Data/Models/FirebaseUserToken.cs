@@ -15,6 +15,7 @@ namespace social_network_otus.Data.Models
         [StringLength(45)]
         public string IpAddress { get; set; }
 
+        public string AdditionalData { get; set; }
 
         public DateTime? UpdateDate { get; set; }
     }

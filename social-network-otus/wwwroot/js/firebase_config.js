@@ -22,8 +22,22 @@ const vapidKey = 'BGDwQYc4JNDasQ90YbkuSxg8TzYMz9Vg9_WufR7WmqeM6G9oVsCxlpMO6AkGQ9
 getToken(messaging, { vapidKey: vapidKey }).then((currentToken) => {
     if (currentToken) {
         console.log(`current token = ${currentToken}`);
+        var _navigator = {};
+        for (var i in navigator) _navigator[i] = navigator[i];
+        console.log('navigator = ', JSON.stringify(_navigator));
 
-        fetch(`/api/FirebaseTokens/Add?token=${currentToken}`, { method: 'POST' })
+        var firebaseTokenModel = {
+            token: currentToken,
+            additionalData: JSON.stringify(_navigator)
+        };
+
+        fetch(`/api/FirebaseTokens/Add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(firebaseTokenModel)
+        })
             .then(response => response.json())
             .then(result => {
                 console.log('result of tokenAdd = ', result);

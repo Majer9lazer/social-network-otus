@@ -1,5 +1,5 @@
 ﻿var messageNotificationOptions = {
-    badge: '/icons/message.png',
+    badge: '/icons/message-64x64.png',
     actions: [
         {
             action: 'message-read-action',
