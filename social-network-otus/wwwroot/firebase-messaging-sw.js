@@ -1,5 +1,5 @@
 ﻿var messageNotificationOptions = {
-    badge: '/icons/message-64x64.png',
+    badge: '/icons/message.png',
     actions: [
         {
             action: 'message-read-action',
@@ -9,7 +9,7 @@
             action: 'message-answer-action',
             title: 'Ответить',
         }],
-    requireInteraction: true
+    requireInteraction: false
 };
 
 self.addEventListener('push', function (event) {
@@ -17,6 +17,10 @@ self.addEventListener('push', function (event) {
     if (event.data) {
         var pushData = event.data.json();
         console.log('This push event has data: ', pushData);
+
+        if (navigator.userAgentData.mobile) {
+            messageNotificationOptions.badge = '/icons/android-chrome-192x192.png';
+        }
 
         messageNotificationOptions.body = pushData.notification.body;
         self.registration.showNotification(pushData.notification.title, messageNotificationOptions)
