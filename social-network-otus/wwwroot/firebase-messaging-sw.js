@@ -1,5 +1,6 @@
 ﻿var messageNotificationOptions = {
     badge: '/icons/message.png',
+    icon:'/icons/message.png',
     actions: [
         {
             action: 'message-read-action',
@@ -19,6 +20,7 @@ self.addEventListener('push', function (event) {
         console.log('This push event has data: ', pushData);
 
         if (navigator.userAgentData.mobile) {
+            messageNotificationOptions.icon='/icons/message-64x64.png'
             messageNotificationOptions.badge = '/icons/android-chrome-192x192.png';
         }
 
