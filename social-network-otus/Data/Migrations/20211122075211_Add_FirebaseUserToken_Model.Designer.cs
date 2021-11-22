@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using social_network_otus.Data;
 
 namespace social_network_otus.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211122075211_Add_FirebaseUserToken_Model")]
+    partial class Add_FirebaseUserToken_Model
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -329,20 +331,12 @@ namespace social_network_otus.Data.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("IpAddress")
-                        .HasMaxLength(45)
                         .HasColumnType("varchar(45)");
 
                     b.Property<string>("Token")
-                        .HasColumnType("varchar(767)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Token")
-                        .IsUnique();
 
                     b.ToTable("FirebaseUserTokens");
                 });

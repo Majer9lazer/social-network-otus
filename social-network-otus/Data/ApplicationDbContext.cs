@@ -14,6 +14,7 @@ namespace social_network_otus.Data
         }
 
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<FirebaseUserToken> FirebaseUserTokens { get; set; }
         public DbSet<ApplicationUserFriend> UserFriends { get; set; }
         public ChatMessage ChatMessages { get; set; }
 
@@ -80,6 +81,20 @@ namespace social_network_otus.Data
                 .HasMany<Chat>()
                 .WithOne(chat => chat.AnotherUser);
 
+            builder
+                .Entity<FirebaseUserToken>()
+                .Property(p => p.CreateDate)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            builder
+               .Entity<FirebaseUserToken>()
+               .Property(p => p.UpdateDate)
+               .HasDefaultValueSql("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP");
+
+            builder
+               .Entity<FirebaseUserToken>()
+               .HasIndex(p => p.Token)
+               .IsUnique();
         }
     }
 }

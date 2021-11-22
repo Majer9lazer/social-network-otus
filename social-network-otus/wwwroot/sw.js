@@ -17,7 +17,8 @@ var urlsToCache = [
 ];
 var urlsNotToCache = [
     '/Profile',
-    '/Profile/GetPaginated'
+    '/Profile/GetPaginated',
+    '/api/FirebaseTokens/Add'
 ];
 
 self.addEventListener('install', function (event) {
@@ -41,11 +42,18 @@ self.addEventListener('fetch', function (event) {
                     response ||
                     fetch(event.request).then(function (response) {
                         console.log('sw fetch event. request = ', event.request.url);
+
+                        var pathName = new URL(event.request.url).pathname;
+                        console.log('pathName = ', pathName);
+
                         if (!/^https?:$/i.test(new URL(event.request.url).protocol)) {
                             return response;
                         }
-                        var pathName = new URL(event.request.url).pathname;
-                        console.log('pathName = ', pathName);
+
+                        if (event.request.method === 'POST') {
+                            return response;
+                        }
+
                         if (urlsNotToCache.indexOf(pathName) === -1) {
                             cache.put(event.request, response.clone());
                         }

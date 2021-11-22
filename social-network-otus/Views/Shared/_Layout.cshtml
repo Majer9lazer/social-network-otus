@@ -23,7 +23,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">social_network_otus</a>
-                <button class="navbar-toggler" type="button"  data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -71,6 +71,18 @@
     <script src="~/lib/vue/dist/vue.global.prod.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/firebase_config.js" asp-append-version="true" type="module"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    <script type="module">
+        const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3')
+          .then(FingerprintJS => FingerprintJS.load());
+
+        // Get the visitor identifier when you need it.
+        fpPromise
+          .then(fp => fp.get())
+          .then(result => {
+              console.log('fingerPrint result = ', result);
+          });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
