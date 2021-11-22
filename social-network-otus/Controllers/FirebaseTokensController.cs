@@ -15,7 +15,7 @@ namespace social_network_otus.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> AddToken([FromBody] FirebaseUserTokenModel model, [FromServices] ApplicationDbContext dbContext)
         {
-            var userIpAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var userIpAddress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
 
             var firebaseUserToken = await dbContext.FirebaseUserTokens.FirstOrDefaultAsync(f => f.Token == model.Token);
             if (firebaseUserToken != null)
