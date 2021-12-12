@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using social_network_otus.Data;
 using social_network_otus.Data.Models;
 
@@ -82,7 +83,7 @@ namespace social_network_otus.Services
         {
             var users = new List<ApplicationUser>(userCount);
             ct.ThrowIfCancellationRequested();
-
+            await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE AspNetUsers DISABLE KEYS;", ct);
             for (var j = userCount; j > 0; j -= 10_000)
             {
                 if (ct.IsCancellationRequested)
@@ -106,15 +107,13 @@ namespace social_network_otus.Services
 
                 users.AddRange(concurrentBag);
 
-                await dbContext.Users.BulkInsertAsync(concurrentBag, ct);
-                await dbContext.BulkSaveChangesAsync(operation =>
-                {
-                    operation.BatchSize = 10_000;
-
-                }, ct);
+                await dbContext.AddRangeAsync(concurrentBag, ct);
+                await dbContext.SaveChangesAsync(ct);
 
             }
 
+            await dbContext.Database.ExecuteSqlRawAsync("DELETE\r\nFROM AspNetUsers\r\nWHERE Id IN (\r\n    SELECT Id\r\n    FROM (\r\n             SELECT ROW_NUMBER() OVER (\r\n                 PARTITION BY email\r\n                 ORDER BY email) AS row_num\r\n             FROM AspNetUsers\r\n         ) t\r\n    WHERE row_num > 1\r\n);", ct);
+            await dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE AspNetUsers ENABLE KEYS;", ct);
             return users;
         }
 

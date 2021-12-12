@@ -9,6 +9,25 @@ namespace social_network_otus.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey("FK_Chats_ChatMessage_MessageId", "Chats");
+            
+            migrationBuilder.AddColumn<string>(
+                name: "ApplicationUserId",
+                table: "AspNetUsers",
+                type: "varchar(255)",
+                nullable: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_ApplicationUserId",
+                table: "AspNetUsers",
+                column: "ApplicationUserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUsers_AspNetUsers_ApplicationUserId",
+                table: "AspNetUsers",
+                column: "ApplicationUserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AlterColumn<int>(
                 name: "MessageId",
@@ -98,24 +117,7 @@ namespace social_network_otus.Data.Migrations
                 oldType: "int")
                 .OldAnnotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn);
 
-            migrationBuilder.AddColumn<string>(
-                name: "ApplicationUserId",
-                table: "AspNetUsers",
-                type: "varchar(255)",
-                nullable: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_ApplicationUserId",
-                table: "AspNetUsers",
-                column: "ApplicationUserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_AspNetUsers_ApplicationUserId",
-                table: "AspNetUsers",
-                column: "ApplicationUserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+           
         }
     }
 }

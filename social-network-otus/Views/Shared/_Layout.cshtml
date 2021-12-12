@@ -35,16 +35,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="Index">Chat</a>
                         </li>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="~/template/uitheme.net/sociala/default.html">Template</a>
                         </li>
-                        <environment exclude="Development">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="RandomUser">Random Users</a>
-                            </li>
-                        </environment>
-
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <environment exclude="Development">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="RandomUser">Random Users</a>
+                                </li>
+                            </environment>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index">Profiles</a>
                         </li>

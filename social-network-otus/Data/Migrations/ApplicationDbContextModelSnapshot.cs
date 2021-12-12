@@ -272,9 +272,6 @@ namespace social_network_otus.Data.Migrations
                     b.Property<string>("AnotherUserId")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<int?>("MessageId")
                         .HasColumnType("int");
 
@@ -284,8 +281,6 @@ namespace social_network_otus.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AnotherUserId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("MessageId");
 
@@ -415,10 +410,6 @@ namespace social_network_otus.Data.Migrations
                     b.HasOne("social_network_otus.Data.Models.ApplicationUser", "AnotherUser")
                         .WithMany()
                         .HasForeignKey("AnotherUserId");
-
-                    b.HasOne("social_network_otus.Data.Models.ApplicationUser", null)
-                        .WithMany("Chats")
-                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("social_network_otus.Data.Models.ChatMessage", "Message")
                         .WithMany()
